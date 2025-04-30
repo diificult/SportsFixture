@@ -3,9 +3,9 @@ using SportsFixture.Models;
 
 namespace SportsFixture.Services
 {
-    public class MatchEventService
+    public class MatchEventService : IEventService<MatchEvent>
     {
-        public ISportFixtureBase<MatchEvent> _repository;
+        public readonly ISportFixtureBase<MatchEvent> _repository;
 
         public MatchEventService(ISportFixtureBase<MatchEvent> repository)
         {

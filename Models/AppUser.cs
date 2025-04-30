@@ -5,6 +5,6 @@ namespace SportsFixture.Models
     public class AppUser : IdentityUser
     {
 
-       // List<SportTeam> FollowedTeams { get; set; } = new List<SportTeam>();
+        public List<Subscriptions> Subscriptions { get; set; } = new List<Subscriptions>();
     }
 }

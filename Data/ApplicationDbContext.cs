@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SportsFixture.Models;
-using System.Reflection.Emit;
 
 namespace SportsFixture.Data
 {
@@ -17,6 +17,8 @@ namespace SportsFixture.Data
         public DbSet<SportTeam> SportTeams { get; set; }
         public DbSet<Sport> Sports { get; set; }
         public DbSet<SportCompetition> SportCompetition { get; set; }
+
+        public DbSet<Subscriptions> Subscriptions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -36,6 +38,20 @@ namespace SportsFixture.Data
             .OnDelete(DeleteBehavior.Restrict);
 
 
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = "1",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                },
+                new IdentityRole
+                {
+                    Id = "2",
+                    Name = "User",
+                    NormalizedName = "USER",
+                }
+            );
             //   builder.Entity<SportCompetition>().HasMany(f => f.AllFixtures).WithOne(f => f.) 
         }
 

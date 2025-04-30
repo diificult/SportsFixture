@@ -8,7 +8,7 @@ using SportsFixture.Repositorys;
 namespace SportsFixture.Controllers
 {
     [Route("api/Sport")]
-    public class SportController : Controller
+    public class SportController : ControllerBase
     {
 
         public readonly ISportsRepository _repo;

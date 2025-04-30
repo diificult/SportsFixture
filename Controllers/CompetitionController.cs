@@ -6,7 +6,7 @@ using SportsFixture.Mapper;
 namespace SportsFixture.Controllers
 {
     [Route("api/Competition")]
-    public class CompetitionController : Controller
+    public class CompetitionController : ControllerBase
     {
         private readonly ISportCompetitionRepository _repo;
        public CompetitionController(ISportCompetitionRepository repo)

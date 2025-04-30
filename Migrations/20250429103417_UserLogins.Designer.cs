@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsFixture.Data;
 
@@ -11,9 +12,11 @@ using SportsFixture.Data;
 namespace SportsFixture.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250429103417_UserLogins")]
+    partial class UserLogins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace SportsFixture.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = "a5bb7b1d-7133-477c-a017-82f4637a280a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = "4600ebfa-9f11-4c1f-995c-e7e765ebd52d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
