@@ -37,6 +37,8 @@ namespace SportsFixture.Data
             .HasForeignKey(m => m.AwayTeamId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<TeamSubscription>().ToTable("TeamSubscriptions");
+
 
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole

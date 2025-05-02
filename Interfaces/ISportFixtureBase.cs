@@ -1,8 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+﻿using SportsFixture.Models;
 
 namespace SportsFixture.Interfaces
 {
-    public interface ISportFixtureBase<T> where T : class
+    public interface ISportFixtureBase<T> where T : SportFixture
     {
         Task<T> AddAsync(T item);
         Task<T?> GetFixtureByIdAsync(int id);

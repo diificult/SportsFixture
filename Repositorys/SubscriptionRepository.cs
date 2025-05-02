@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportsFixture.Data;
-using SportsFixture.Interfaces;
+using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Models;
 
 namespace SportsFixture.Repositorys
 {
-    public class SportFixtureRepository<T> : ISportFixtureBase<T> where T : SportFixture
+    public class SubscriptionRepository<T> : ISubscriptionRepository<T> where T : Subscriptions
     {
 
         private readonly ApplicationDbContext _context;
 
-        public  SportFixtureRepository (ApplicationDbContext context)
+        public SubscriptionRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,14 +23,15 @@ namespace SportsFixture.Repositorys
             return item;
         }
 
-        public async Task<List<T>> GetAllFixtures()
+        public async Task<List<T>> GetUserSubscriptions(AppUser appUser)
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().Include(t => t.Team).Where(u => u.UserId == appUser.Id).ToListAsync();
         }
 
-        public async Task<T?> GetFixtureByIdAsync(int id)
+        public async Task<T?> GetSubscriptionByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
+
     }
 }

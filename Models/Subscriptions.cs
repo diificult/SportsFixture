@@ -1,5 +1,8 @@
-﻿namespace SportsFixture.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SportsFixture.Models
 {
+    [Table("Subscriptions")]
     public class Subscriptions
     {
         public int Id { get; set; }

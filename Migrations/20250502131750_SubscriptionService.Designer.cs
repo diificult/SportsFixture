@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsFixture.Data;
 
@@ -11,9 +12,11 @@ using SportsFixture.Data;
 namespace SportsFixture.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250502131750_SubscriptionService")]
+    partial class SubscriptionService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,8 +356,6 @@ namespace SportsFixture.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Subscriptions");
-
-                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("SportsFixture.Models.MatchEvent", b =>
@@ -381,18 +382,6 @@ namespace SportsFixture.Migrations
                     b.HasIndex("HomeTeamId");
 
                     b.ToTable("MatchEvent", (string)null);
-                });
-
-            modelBuilder.Entity("SportsFixture.Models.TeamSubscription", b =>
-                {
-                    b.HasBaseType("SportsFixture.Models.Subscriptions");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("TeamSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -502,23 +491,6 @@ namespace SportsFixture.Migrations
                     b.Navigation("AwayTeam");
 
                     b.Navigation("HomeTeam");
-                });
-
-            modelBuilder.Entity("SportsFixture.Models.TeamSubscription", b =>
-                {
-                    b.HasOne("SportsFixture.Models.Subscriptions", null)
-                        .WithOne()
-                        .HasForeignKey("SportsFixture.Models.TeamSubscription", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SportsFixture.Models.SportTeam", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("SportsFixture.Models.AppUser", b =>

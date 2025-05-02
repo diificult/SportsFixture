@@ -10,6 +10,8 @@ using SportsFixture.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SportsFixture.Interfaces.Subscription;
+using SportsFixture.Services.Subscription;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,10 +26,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddSwaggerGen(c =>
-{
-   
-});
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Fixture Api", Version = "v1" });
@@ -109,6 +107,8 @@ builder.Services.AddScoped<ISportsRepository, SportsRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEventService<MatchEvent>, MatchEventService>();
 builder.Services.AddScoped<IEventService<MultiTeamEvent>, MultiTeamEventService>();
+builder.Services.AddScoped(typeof(ISubscriptionRepository<>), typeof(SubscriptionRepository<>));
+builder.Services.AddScoped<ISubscriptionService<TeamSubscription>, TeamSubscriptionService>();
 
 var app = builder.Build();
 
