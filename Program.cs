@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Services.Subscription;
+using SportsFixture.Repositorys.Subscriptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,7 +108,7 @@ builder.Services.AddScoped<ISportsRepository, SportsRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEventService<MatchEvent>, MatchEventService>();
 builder.Services.AddScoped<IEventService<MultiTeamEvent>, MultiTeamEventService>();
-builder.Services.AddScoped(typeof(ISubscriptionRepository<>), typeof(SubscriptionRepository<>));
+builder.Services.AddScoped<ISubscriptionRepository<TeamSubscription>, TeamSubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionService<TeamSubscription>, TeamSubscriptionService>();
 
 var app = builder.Build();

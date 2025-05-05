@@ -6,13 +6,13 @@ using SportsFixture.Models;
 
 namespace SportsFixture.Services.Subscription
 {
-    public class TeamSubscriptionService : ITeamSubscriptionService
+    public class CompeitionSubscriptionService : ICompetitionSubscriptionService
     {
 
         public readonly UserManager<AppUser> _userManager;
-        public readonly ISubscriptionRepository<TeamSubscription> _subscriptionRepository;
+        public readonly ISubscriptionRepository<CompetitionSubscription> _subscriptionRepository;
 
-        public TeamSubscriptionService (UserManager<AppUser> userManager, ISubscriptionRepository<TeamSubscription> subscriptionRepository)
+        public CompeitionSubscriptionService (UserManager<AppUser> userManager, ISubscriptionRepository<CompetitionSubscription> subscriptionRepository)
         {
             _userManager = userManager;
             _subscriptionRepository = subscriptionRepository;
@@ -23,19 +23,19 @@ namespace SportsFixture.Services.Subscription
             var appUser = await _userManager.FindByNameAsync(username);
             //TODO: Check to see if it already exists, if not get from API.
             var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
-            if (userSubscriptions.Any(e => e.TeamId == itemId)) return false;
-            var teamModel = new TeamSubscription
+            if (userSubscriptions.Any(e => e.CompetitionId == itemId)) return false;
+            var competitionModel = new CompetitionSubscription
             {
-                TeamId = itemId,
+                CompetitionId = itemId,
                 UserId = appUser.Id
             };
-            await _subscriptionRepository.AddAsync(teamModel);
-            if (teamModel == null) return false;
+            await _subscriptionRepository.AddAsync(competitionModel);
+            if (competitionModel == null) return false;
             else return true;
 
         }
 
-        public async Task<List<TeamSubscriptionDto>> GetUserSubscriptionsDto(string username)
+        public async Task<List<CompetitionSubscriptionDto>> GetUserSubscriptionsDto(string username)
         {
             var appUser = await _userManager.FindByNameAsync(username);
             var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);

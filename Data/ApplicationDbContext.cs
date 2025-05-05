@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SportsFixture.Models;
+using System.Reflection.Emit;
 
 namespace SportsFixture.Data
 {
@@ -38,6 +39,8 @@ namespace SportsFixture.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TeamSubscription>().ToTable("TeamSubscriptions");
+            builder.Entity<MatchEvent>().HasBaseType<SportFixture>();
+            builder .Entity<MultiTeamEvent>().HasBaseType<SportFixture>();
 
 
             builder.Entity<IdentityRole>().HasData(

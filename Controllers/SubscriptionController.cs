@@ -14,20 +14,18 @@ namespace SportsFixture.Controllers
     {
         public readonly UserManager<AppUser> _userManager;
         public readonly ISubscriptionService<TeamSubscription> _teamSubscriptionService;
-        public readonly ISubscriptionRepository<CompetitionSubscription> _competitonRepository;
-        public readonly ISubscriptionRepository<FixtureSubscription> _fixtureRepository;
+       // public readonly ISubscriptionRepository<CompetitionSubscription> _competitonRepository;
+      //  public readonly ISubscriptionRepository<FixtureSubscription> _fixtureRepository;
         
 
 
         public SubscriptionController(
             UserManager<AppUser> userManager, 
-            ISubscriptionRepository<CompetitionSubscription> compRepo, 
-            ISubscriptionRepository<FixtureSubscription> fixtureRepo,
             ISubscriptionService<TeamSubscription> teamSubscriptionService)
         {
             _userManager = userManager;
-            _competitonRepository = compRepo;
-            _fixtureRepository = fixtureRepo;
+         //   _competitonRepository = compRepo;
+        //    _fixtureRepository = fixtureRepo;
             _teamSubscriptionService = teamSubscriptionService;
         }
 
