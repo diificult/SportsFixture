@@ -49,6 +49,21 @@ namespace SportsFixture.Controllers
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
         }
+        [HttpDelete("team/subId")]
+        [Authorize]
+        public async Task<IActionResult> DeleteTeamSubscription(int SubscriptionId)
+        {
+            var username = User.GetUsername();
+            var RemoveSub = await _teamSubscriptionService.DeleteSubscription(username, SubscriptionId);
+            if (RemoveSub) return Ok();
+            else return BadRequest("Error removing subscription");
+        }
+        [HttpDelete("team/subId")]
+        [Authorize]
+        public async Task<IActionResult> DeleteTeamSubscriptionByTeamId(int TeamId)
+        {
+
+        }
         [HttpGet("fixture")]
         [Authorize]
         public async Task<IActionResult> GetFixtureSubscription()

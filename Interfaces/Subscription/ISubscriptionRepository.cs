@@ -6,10 +6,11 @@ namespace SportsFixture.Interfaces.Subscription
     {
         Task<T> AddAsync(T item);
 
-        Task<List<T>> GetUserSubscriptions(AppUser appUser);
+        Task<List<T>> GetUserSubscriptionsAsync(AppUser appUser);
 
         Task<T?> GetSubscriptionByIdAsync(int id);
 
+        Task<T?> DeleteSubscriptionByIdAsync(int id);
 
     }
 }

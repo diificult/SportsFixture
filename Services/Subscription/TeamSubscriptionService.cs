@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SportsFixture.Dtos.Subscriptions;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Mapper;
 using SportsFixture.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SportsFixture.Services.Subscription
 {
@@ -22,7 +25,7 @@ namespace SportsFixture.Services.Subscription
         {
             var appUser = await _userManager.FindByNameAsync(username);
             //TODO: Check to see if it already exists, if not get from API.
-            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
             if (userSubscriptions.Any(e => e.TeamId == itemId)) return false;
             var teamModel = new TeamSubscription
             {
@@ -35,10 +38,23 @@ namespace SportsFixture.Services.Subscription
 
         }
 
+        public async Task<bool> DeleteSubscription(string username, int itemId)
+        {
+            var appUser = await _userManager.FindByNameAsync(username);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
+            var filterSubscriptions = userSubscriptions.Where(s => s.Id == itemId).ToList();
+            if (filterSubscriptions.Count() == 1)
+            {
+                await _subscriptionRepository.DeleteSubscriptionByIdAsync(itemId);
+            }
+            else return false;
+            return true;
+        }   
+
         public async Task<List<TeamSubscriptionDto>> GetUserSubscriptionsDto(string username)
         {
             var appUser = await _userManager.FindByNameAsync(username);
-            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
             var dtos = userSubscriptions.Select(s => s.ToTeamSubscriptionDto()).ToList();
 
             //return await _subscriptionRepository.GetUserSubscriptions(appUser);

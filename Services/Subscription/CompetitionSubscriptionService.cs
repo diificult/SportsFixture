@@ -22,7 +22,7 @@ namespace SportsFixture.Services.Subscription
         {
             var appUser = await _userManager.FindByNameAsync(username);
             //TODO: Check to see if it already exists, if not get from API.
-            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
             if (userSubscriptions.Any(e => e.CompetitionId == itemId)) return false;
             var competitionModel = new CompetitionSubscription
             {
@@ -38,7 +38,7 @@ namespace SportsFixture.Services.Subscription
         public async Task<List<CompetitionSubscriptionDto>> GetUserSubscriptionsDto(string username)
         {
             var appUser = await _userManager.FindByNameAsync(username);
-            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
             var dtos = userSubscriptions.Select(s => s.ToTeamSubscriptionDto()).ToList();
 
             //return await _subscriptionRepository.GetUserSubscriptions(appUser);
