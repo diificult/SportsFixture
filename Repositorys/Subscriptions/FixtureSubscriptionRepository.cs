@@ -32,5 +32,6 @@ namespace SportsFixture.Repositorys.Subscriptions
         {
             return await _context.Set<FixtureSubscription>().Include(t => t.Fixture).Where(u => u.UserId == appUser.Id).ToListAsync();
         }
+
     }
 }

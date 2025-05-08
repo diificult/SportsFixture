@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using SportsFixture.Extensions;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Models;
-using SportsFixture.Services.Subscription;
 
 namespace SportsFixture.Controllers
 {
@@ -13,19 +12,22 @@ namespace SportsFixture.Controllers
     public class SubscriptionController : ControllerBase
     {
         public readonly UserManager<AppUser> _userManager;
-        public readonly ISubscriptionService<TeamSubscription> _teamSubscriptionService;
-       // public readonly ISubscriptionRepository<CompetitionSubscription> _competitonRepository;
-      //  public readonly ISubscriptionRepository<FixtureSubscription> _fixtureRepository;
+        public readonly ITeamSubscriptionService _teamSubscriptionService;
+        public readonly ICompetitionSubscriptionService _competitonRepository;
+        public readonly IFixtureSubscriptionService _fixtureRepository;
         
 
 
         public SubscriptionController(
-            UserManager<AppUser> userManager, 
-            ISubscriptionService<TeamSubscription> teamSubscriptionService)
+            UserManager<AppUser> userManager,
+            ITeamSubscriptionService teamSubscriptionService,
+            ICompetitionSubscriptionService competitionSubscriptionService,
+            IFixtureSubscriptionService fixtureSubscriptionService
+            )
         {
             _userManager = userManager;
-         //   _competitonRepository = compRepo;
-        //    _fixtureRepository = fixtureRepo;
+            _competitonRepository = competitionSubscriptionService;
+            _fixtureRepository = fixtureSubscriptionService;
             _teamSubscriptionService = teamSubscriptionService;
         }
 
@@ -38,7 +40,7 @@ namespace SportsFixture.Controllers
             return Ok(userSubscriptions);
         }
 
-        [HttpPost]
+        [HttpPost("team")]
         [Authorize]
         public async Task<IActionResult> AddTeamSubscription(int TeamId)
         {
@@ -46,6 +48,41 @@ namespace SportsFixture.Controllers
             var AddSub = await _teamSubscriptionService.AddSubscription(username, TeamId);
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
+        }
+        [HttpGet("fixture")]
+        [Authorize]
+        public async Task<IActionResult> GetFixtureSubscription()
+        {
+            var username = User.GetUsername();
+            var userSubsription = await _fixtureRepository.GetUserSubscriptionsDto(username);
+            return Ok(userSubsription);
+            
+        }
+        [HttpPost("fixture")]
+        public async Task<IActionResult> AddFixtureSubscription(int fixtureId)
+        {
+            var username = User.GetUsername();
+            var AddSub = await _fixtureRepository.AddSubscription(username, fixtureId);
+            if (AddSub) return Ok();
+            else return BadRequest("Error adding subscription");
+        }
+
+        [HttpGet("competition")]
+        [Authorize]
+        public async Task<IActionResult> GetCompetitionSubscription()
+        {
+            var username = User.GetUsername();
+            var userSubsription = await _competitonRepository.GetUserSubscriptionsDto(username);
+            return Ok(userSubsription);
+
+        }
+        [HttpPost("competition")]
+        public async Task<IActionResult> AddCompetitionSubscription(int competitionId)
+        {
+            var username = User.GetUsername();
+            var AddSub = await _competitonRepository.AddSubscription(username, competitionId);
+            if (AddSub) return Ok();
+            else return BadRequest("Error adding subscription");
         }
     }
 }

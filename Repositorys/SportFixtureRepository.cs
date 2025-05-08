@@ -30,7 +30,17 @@ namespace SportsFixture.Repositorys
 
         public async Task<T?> GetFixtureByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return await _context.Set<T>().Include(s => s.Sport).FirstOrDefaultAsync(f => f.Id == id);
+        }
+
+        public async Task<T?> UpdateFixtureAsync(T updatedFixture, int id)
+        {
+            var existingFixture = await _context.Set<T>().FirstOrDefaultAsync(f => f.Id == id);
+            if (existingFixture == null) return null;
+            _context.Entry(existingFixture).CurrentValues.SetValues(updatedFixture);
+
+            await _context.SaveChangesAsync();
+            return existingFixture;
         }
     }
 }

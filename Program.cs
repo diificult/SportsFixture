@@ -106,10 +106,16 @@ builder.Services.AddScoped<ISportCompetitionRepository, SportCompetitionReposito
 builder.Services.AddScoped<ISportTeamRepository, SportsTeamRepository>();
 builder.Services.AddScoped<ISportsRepository, SportsRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IEventService<MatchEvent>, MatchEventService>();
-builder.Services.AddScoped<IEventService<MultiTeamEvent>, MultiTeamEventService>();
+builder.Services.AddScoped<IEventService<MatchEvent, UpdateMatchEventDto>, MatchEventService>();
+builder.Services.AddScoped<IEventService<MultiTeamEvent, UpdateMultiTeamEventDto>, MultiTeamEventService>();
+
 builder.Services.AddScoped<ISubscriptionRepository<TeamSubscription>, TeamSubscriptionRepository>();
-builder.Services.AddScoped<ISubscriptionService<TeamSubscription>, TeamSubscriptionService>();
+builder.Services.AddScoped<ISubscriptionRepository<FixtureSubscription>, FixtureSubscriptionRepository>();
+builder.Services.AddScoped<ISubscriptionRepository<CompetitionSubscription>, CompetitionSubscriptionRepository>();
+
+builder.Services.AddScoped<ITeamSubscriptionService, TeamSubscriptionService>();
+builder.Services.AddScoped<IFixtureSubscriptionService, FixtureSubscriptionService>();
+builder.Services.AddScoped<ICompetitionSubscriptionService, CompeitionSubscriptionService>();
 
 var app = builder.Build();
 

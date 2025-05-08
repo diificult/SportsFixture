@@ -46,6 +46,21 @@ namespace SportsFixture.Controllers
             //To Create a DTO
             return Ok(fixture);
         }
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdateMatchEvent([FromRoute] int id, [FromBody] UpdateMatchEventDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var fixtureUpdate = await _service.UpdateFixture(id, dto);
+            if (fixtureUpdate == null)
+            {
+                return NotFound();
+            }
+            return Ok(fixtureUpdate.ToFixtureDto());
+        }
 
     }
 }

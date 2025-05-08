@@ -1,33 +1,32 @@
 ﻿using SportsFixture.Dtos.Fixture;
-using SportsFixture.Dtos.Subscriptions;
 using SportsFixture.Models;
 
 namespace SportsFixture.Mapper
 {
     public static  class FixtureSubscriptionMapper
     {
-        public static SportFixtureDto ToFixtureDto(SportFixture fixture)
+        public static SportFixtureDto ToFixtureDto(this SportFixture fixture)
         {
             return fixture switch
             {
-                MatchEvent m => new MatchEventDto
+                MatchEvent matchEvent => new MatchEventDto
                 {
-                    Id = m.Id,
-                    EventName = m.EventName,
-                    Referee = m.Referee,
-                    HomeTeamName = m.HomeTeam?.Name,
-                    AwayTeamName = m.AwayTeam?.Name,
-                    StatusShort = m.StatusShort,
-                    EventDateTime = m.EventDateTime
+                    Id = matchEvent.Id,
+                    EventName = matchEvent.EventName,
+                    Referee = matchEvent.Referee,
+                    HomeTeamName = matchEvent.HomeTeam?.Name,
+                    AwayTeamName = matchEvent.AwayTeam?.Name,
+                    StatusShort = matchEvent.StatusShort,
+                    EventDateTime = matchEvent.EventDateTime
                 },
-                MultiTeamEvent mt => new MutliTeamEventDto
+                MultiTeamEvent multiTeamEvent => new MutliTeamEventDto
                 {
-                    Id = mt.Id,
-                    EventName = mt.EventName,
-                    Length = mt.Length,
-                    WinningTeamName = mt.WinningTeam?.Name,
-                    StatusShort = mt.StatusShort,
-                    EventDateTime = mt.EventDateTime
+                    Id = multiTeamEvent.Id,
+                    EventName = multiTeamEvent.EventName,
+                    Length = multiTeamEvent.Length,
+                    WinningTeamName = multiTeamEvent.WinningTeam?.Name,
+                    StatusShort = multiTeamEvent.StatusShort,
+                    EventDateTime = multiTeamEvent.EventDateTime
                 },
                 _ => new SportFixtureDto
                 {

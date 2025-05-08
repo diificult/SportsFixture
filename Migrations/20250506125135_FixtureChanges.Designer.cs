@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsFixture.Data;
 
@@ -11,9 +12,11 @@ using SportsFixture.Data;
 namespace SportsFixture.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506125135_FixtureChanges")]
+    partial class FixtureChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,30 +386,6 @@ namespace SportsFixture.Migrations
                     b.ToTable("MatchEvent", (string)null);
                 });
 
-            modelBuilder.Entity("SportsFixture.Models.CompetitionSubscription", b =>
-                {
-                    b.HasBaseType("SportsFixture.Models.Subscriptions");
-
-                    b.Property<int>("CompetitionId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CompetitionId");
-
-                    b.ToTable("CompetitionSubscription", (string)null);
-                });
-
-            modelBuilder.Entity("SportsFixture.Models.FixtureSubscription", b =>
-                {
-                    b.HasBaseType("SportsFixture.Models.Subscriptions");
-
-                    b.Property<int>("FixtureId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("FixtureId");
-
-                    b.ToTable("FixtureSubscription", (string)null);
-                });
-
             modelBuilder.Entity("SportsFixture.Models.TeamSubscription", b =>
                 {
                     b.HasBaseType("SportsFixture.Models.Subscriptions");
@@ -526,40 +505,6 @@ namespace SportsFixture.Migrations
                     b.Navigation("AwayTeam");
 
                     b.Navigation("HomeTeam");
-                });
-
-            modelBuilder.Entity("SportsFixture.Models.CompetitionSubscription", b =>
-                {
-                    b.HasOne("SportsFixture.Models.SportCompetition", "Competition")
-                        .WithMany()
-                        .HasForeignKey("CompetitionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SportsFixture.Models.Subscriptions", null)
-                        .WithOne()
-                        .HasForeignKey("SportsFixture.Models.CompetitionSubscription", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Competition");
-                });
-
-            modelBuilder.Entity("SportsFixture.Models.FixtureSubscription", b =>
-                {
-                    b.HasOne("SportsFixture.Models.SportFixture", "Fixture")
-                        .WithMany()
-                        .HasForeignKey("FixtureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SportsFixture.Models.Subscriptions", null)
-                        .WithOne()
-                        .HasForeignKey("SportsFixture.Models.FixtureSubscription", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Fixture");
                 });
 
             modelBuilder.Entity("SportsFixture.Models.TeamSubscription", b =>

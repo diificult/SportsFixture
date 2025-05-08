@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Identity.Client;
 using SportsFixture.Dtos.Subscriptions;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Mapper;
@@ -36,17 +35,17 @@ namespace SportsFixture.Services.Subscription
 
         }
 
-        public async Task<List<FixtureSubscriptionDto>> GetUserSubscriptionsDto(string username)
+        public async Task<List<FixtureSubscriptionDto>?> GetUserSubscriptionsDto(string username)
         {
             var appUser = await _userManager.FindByNameAsync(username);
             var userSubscriptions = await _subscriptionRepository.GetUserSubscriptions(appUser);
-           // var dtos = userSubscriptions.Select(s => s.ToTeamSubscriptionDto()).ToList();
+            // var dtos = userSubscriptions.Select(s => s.ToTeamSubscriptionDto()).ToList();
 
             var dtos = userSubscriptions.Select(s => new FixtureSubscriptionDto
             {
                 id = s.Id,
-                fixture = ToFix
-            })
+                fixture = s.Fixture.ToFixtureDto(),
+            }).ToList();
             
             //return await _subscriptionRepository.GetUserSubscriptions(appUser);
             return dtos;

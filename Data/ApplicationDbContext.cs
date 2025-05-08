@@ -39,8 +39,10 @@ namespace SportsFixture.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TeamSubscription>().ToTable("TeamSubscriptions");
-            builder.Entity<MatchEvent>().HasBaseType<SportFixture>();
-            builder .Entity<MultiTeamEvent>().HasBaseType<SportFixture>();
+            builder.Entity<FixtureSubscription>().ToTable("FixtureSubscription");
+            builder.Entity<CompetitionSubscription>().ToTable("CompetitionSubscription");
+            //builder.Entity<MatchEvent>().HasBaseType<SportFixture>();
+          //  builder.Entity<MultiTeamEvent>().HasBaseType<SportFixture>();
 
 
             builder.Entity<IdentityRole>().HasData(
