@@ -23,9 +23,14 @@ namespace SportsFixture.Repositorys.Subscriptions
             return item;
         }
 
-        public Task<FixtureSubscription?> DeleteSubscriptionByIdAsync(int id)
+        public async Task<FixtureSubscription?> DeleteSubscriptionByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            _context.Set<FixtureSubscription>();
+            var subModel = await _context.Set<FixtureSubscription>().FirstOrDefaultAsync(x => x.FixtureId == id);
+            if (subModel == null) return null;
+            _context.Remove(subModel);
+            await _context.SaveChangesAsync();
+            return subModel;
         }
 
         public async Task<FixtureSubscription?> GetSubscriptionByIdAsync(int id)

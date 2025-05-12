@@ -35,6 +35,19 @@ namespace SportsFixture.Services.Subscription
 
         }
 
+        public async Task<bool> DeleteSubscription(string username, int itemId)
+        {
+            var appUser = await _userManager.FindByNameAsync(username);
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
+            var filterSubscriptions = userSubscriptions.Where(s => s.FixtureId == itemId).ToList();
+            if (filterSubscriptions.Count() == 1)
+            {
+                await _subscriptionRepository.DeleteSubscriptionByIdAsync(itemId);
+            }
+            else return false;
+            return true;
+        }
+
         public async Task<List<FixtureSubscriptionDto>?> GetUserSubscriptionsDto(string username)
         {
             var appUser = await _userManager.FindByNameAsync(username);

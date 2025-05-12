@@ -13,8 +13,8 @@ namespace SportsFixture.Controllers
     {
         public readonly UserManager<AppUser> _userManager;
         public readonly ITeamSubscriptionService _teamSubscriptionService;
-        public readonly ICompetitionSubscriptionService _competitonRepository;
-        public readonly IFixtureSubscriptionService _fixtureRepository;
+        public readonly ICompetitionSubscriptionService _competitonSubscriptionService;
+        public readonly IFixtureSubscriptionService _fixtureSubscriptionService;
         
 
 
@@ -26,10 +26,12 @@ namespace SportsFixture.Controllers
             )
         {
             _userManager = userManager;
-            _competitonRepository = competitionSubscriptionService;
-            _fixtureRepository = fixtureSubscriptionService;
+            _competitonSubscriptionService = competitionSubscriptionService;
+            _fixtureSubscriptionService = fixtureSubscriptionService;
             _teamSubscriptionService = teamSubscriptionService;
         }
+        
+        //TEAMS
 
         [HttpGet("team")]
         [Authorize]
@@ -49,27 +51,25 @@ namespace SportsFixture.Controllers
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
         }
-        [HttpDelete("team/subId")]
-        [Authorize]
-        public async Task<IActionResult> DeleteTeamSubscription(int SubscriptionId)
-        {
-            var username = User.GetUsername();
-            var RemoveSub = await _teamSubscriptionService.DeleteSubscription(username, SubscriptionId);
-            if (RemoveSub) return Ok();
-            else return BadRequest("Error removing subscription");
-        }
-        [HttpDelete("team/subId")]
+
+        [HttpDelete("team")]
         [Authorize]
         public async Task<IActionResult> DeleteTeamSubscriptionByTeamId(int TeamId)
         {
-
+            var username = User.GetUsername();
+            var isRemoved = await _teamSubscriptionService.DeleteSubscription(username, TeamId);
+            if (isRemoved) return Ok();
+            else return BadRequest("Unable to delete subscription");
         }
+
+        //FIXTURES
+
         [HttpGet("fixture")]
         [Authorize]
         public async Task<IActionResult> GetFixtureSubscription()
         {
             var username = User.GetUsername();
-            var userSubsription = await _fixtureRepository.GetUserSubscriptionsDto(username);
+            var userSubsription = await _fixtureSubscriptionService.GetUserSubscriptionsDto(username);
             return Ok(userSubsription);
             
         }
@@ -77,17 +77,28 @@ namespace SportsFixture.Controllers
         public async Task<IActionResult> AddFixtureSubscription(int fixtureId)
         {
             var username = User.GetUsername();
-            var AddSub = await _fixtureRepository.AddSubscription(username, fixtureId);
+            var AddSub = await _fixtureSubscriptionService.AddSubscription(username, fixtureId);
             if (AddSub) return Ok();
             else return BadRequest("Error adding subscription");
         }
+        [HttpDelete("fixture")]
+        [Authorize]
+        public async Task<IActionResult> DeleteFixtureSubscriptionByTeamId(int FixtureId)
+        {
+            var username = User.GetUsername();
+            var isRemoved = await _fixtureSubscriptionService.DeleteSubscription(username, FixtureId);
+            if (isRemoved) return Ok();
+            else return BadRequest("Unable to delete subscription");
+        }
+
+        //COMPETITIONS
 
         [HttpGet("competition")]
         [Authorize]
         public async Task<IActionResult> GetCompetitionSubscription()
         {
             var username = User.GetUsername();
-            var userSubsription = await _competitonRepository.GetUserSubscriptionsDto(username);
+            var userSubsription = await _competitonSubscriptionService.GetUserSubscriptionsDto(username);
             return Ok(userSubsription);
 
         }
@@ -95,9 +106,18 @@ namespace SportsFixture.Controllers
         public async Task<IActionResult> AddCompetitionSubscription(int competitionId)
         {
             var username = User.GetUsername();
-            var AddSub = await _competitonRepository.AddSubscription(username, competitionId);
+            var AddSub = await _competitonSubscriptionService.AddSubscription(username, competitionId);
             if (AddSub) return Ok();
             else return BadRequest("Error adding subscription");
+        }
+        [HttpDelete("competition")]
+        [Authorize]
+        public async Task<IActionResult> DeleteCompetitionSubscriptionByTeamId(int CompetitionId)
+        {
+            var username = User.GetUsername();
+            var isRemoved = await _competitonSubscriptionService.DeleteSubscription(username, CompetitionId);
+            if (isRemoved) return Ok();
+            else return BadRequest("Unable to delete subscription");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace SportsFixture.Repositorys.Subscriptions
         public async Task<TeamSubscription?> DeleteSubscriptionByIdAsync(int id)
         {
             _context.Set<TeamSubscription>();
-            var subModel = await _context.Set<TeamSubscription>().FirstOrDefaultAsync(x => x.Id == id);
+            var subModel = await _context.Set<TeamSubscription>().FirstOrDefaultAsync(x => x.TeamId == id);
             if (subModel == null) return null;
             _context.Remove(subModel);
             await _context.SaveChangesAsync();

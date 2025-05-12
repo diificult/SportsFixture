@@ -42,7 +42,7 @@ namespace SportsFixture.Services.Subscription
         {
             var appUser = await _userManager.FindByNameAsync(username);
             var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
-            var filterSubscriptions = userSubscriptions.Where(s => s.Id == itemId).ToList();
+            var filterSubscriptions = userSubscriptions.Where(s => s.TeamId == itemId).ToList();
             if (filterSubscriptions.Count() == 1)
             {
                 await _subscriptionRepository.DeleteSubscriptionByIdAsync(itemId);
