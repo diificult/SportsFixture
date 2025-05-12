@@ -51,6 +51,17 @@ namespace SportsFixture.Controllers
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
         }
+        [HttpPost("team")]
+        [Authorize]
+        public async Task<IActionResult> AddTeamSubscriptionByName(string Team)
+        {
+            var username = User.GetUsername();
+
+            
+            var AddSub = await _teamSubscriptionService.AddSubscription(username, TeamId);
+            if (AddSub) return Ok();
+            else return BadRequest("Error in adding subscription");
+        }
 
         [HttpDelete("team")]
         [Authorize]

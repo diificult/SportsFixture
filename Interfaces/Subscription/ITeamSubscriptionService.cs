@@ -8,6 +8,7 @@ namespace SportsFixture.Interfaces.Subscription
     {
         Task<List<TeamSubscriptionDto>> GetUserSubscriptionsDto(string username);
         Task<bool> AddSubscription(string username, int itemId);
+        Task<bool> AddSubscriptionByName(string username, string teamName);
         Task<bool> DeleteSubscription(string username, int itemId);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SportsFixture.Dtos.Subscriptions;
+using SportsFixture.Interfaces;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Mapper;
 using SportsFixture.Models;
@@ -14,17 +15,18 @@ namespace SportsFixture.Services.Subscription
 
         public readonly UserManager<AppUser> _userManager;
         public readonly ISubscriptionRepository<TeamSubscription> _subscriptionRepository;
+        public readonly ISportTeamRepository _teamRepository;
 
-        public TeamSubscriptionService (UserManager<AppUser> userManager, ISubscriptionRepository<TeamSubscription> subscriptionRepository)
+        public TeamSubscriptionService (UserManager<AppUser> userManager, ISubscriptionRepository<TeamSubscription> subscriptionRepository, ISportTeamRepository teamRepository)
         {
             _userManager = userManager;
             _subscriptionRepository = subscriptionRepository;
+            _teamRepository = teamRepository;
         }
 
         public async Task<bool> AddSubscription(string username, int itemId)
         {
             var appUser = await _userManager.FindByNameAsync(username);
-            //TODO: Check to see if it already exists, if not get from API.
             var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
             if (userSubscriptions.Any(e => e.TeamId == itemId)) return false;
             var teamModel = new TeamSubscription
@@ -36,6 +38,28 @@ namespace SportsFixture.Services.Subscription
             if (teamModel == null) return false;
             else return true;
 
+        }
+
+
+        public async Task<bool> AddSubscriptionByName(string username, string teamName)
+        {
+            var appUser = await _userManager.FindByNameAsync(username);
+            var team = _teamRepository.GetTeamByName(teamName);
+            if (team == null)
+            {
+                //Team not found, get by api
+
+            }
+            var userSubscriptions = await _subscriptionRepository.GetUserSubscriptionsAsync(appUser);
+            if (userSubscriptions.Any(e => e.Team.Name == teamName)) return false;
+            var teamModel = new TeamSubscription
+            {
+                TeamId = team.Id,
+                UserId = appUser.Id
+            };
+            await _subscriptionRepository.AddAsync(teamModel);
+            if (teamModel == null) return false;
+            else return true;
         }
 
         public async Task<bool> DeleteSubscription(string username, int itemId)

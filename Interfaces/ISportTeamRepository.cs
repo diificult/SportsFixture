@@ -7,5 +7,6 @@ namespace SportsFixture.Interfaces
         Task<SportTeam> AddTeam(SportTeam team);
         Task<List<SportTeam>> GetAllTeams();
         Task<SportTeam> GetTeamById(int id);
+        Task<SportTeam> GetTeamByName(string name);
     }
 }

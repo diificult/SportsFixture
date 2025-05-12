@@ -30,5 +30,10 @@ namespace SportsFixture.Repositorys
         {
             return await _context.SportTeams.FirstOrDefaultAsync(t => t.Id == id);
         }
+
+        public async Task<SportTeam> GetTeamByName(string name)
+        {
+            return await _context.SportTeams.FirstOrDefaultAsync(t => t.Name.ToUpper() == name.ToUpper());
+        }
     }
 }
