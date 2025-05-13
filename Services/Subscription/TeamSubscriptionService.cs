@@ -59,7 +59,6 @@ namespace SportsFixture.Services.Subscription
                     //Stores all results to reduce future requests
                     foreach (SportTeam t in teams)
                     {
-                        Console.WriteLine($"Also stored: {t.Name}");
                         await _teamRepository.AddTeam(t);
 
                     }

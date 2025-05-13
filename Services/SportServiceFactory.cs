@@ -17,7 +17,7 @@ namespace SportsFixture.Services
         {
             return sport switch
             {
-                SportType.Football => _serviceProvider.GetRequiredService<IapiSportService>() ?? throw new InvalidOperationException("Service not registered"),
+                SportType.Football => _serviceProvider.GetRequiredService<IapiSportService>(),
                 _ => throw new ArgumentException("Sport Not Found")
             };
         }
