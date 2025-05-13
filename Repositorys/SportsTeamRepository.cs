@@ -16,7 +16,8 @@ namespace SportsFixture.Repositorys
         }
         public async Task<SportTeam> AddTeam(SportTeam team)
         {
-            await _context.AddAsync(team);
+            if (await _context.SportTeams.FirstOrDefaultAsync(t => t.APIid == team.APIid) != null) return null;
+            await _context.SportTeams.AddAsync(team);
             await _context.SaveChangesAsync();
             return team;
         }

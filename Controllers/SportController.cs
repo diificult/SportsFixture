@@ -21,15 +21,17 @@ namespace SportsFixture.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSport([FromBody] CreateSportDto dto)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var sportModel = dto.ToSportFromCreateDto();
-            await _repo.AddSport(sportModel);
-            if (sportModel == null) return StatusCode(500, "Couldn't create");
-            else return Created();
+            /*
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+                        var sportModel = dto.ToSportFromCreateDto();
+                        await _repo.AddSport(sportModel);
+                        if (sportModel == null) return StatusCode(500, "Couldn't create");
+                        else return Created();
+            */
+            return NoContent();
         }
     }
 }

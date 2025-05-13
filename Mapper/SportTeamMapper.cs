@@ -14,5 +14,14 @@ namespace SportsFixture.Mapper
                 APIid = dto.APIid,
             };
         } 
+        public static SportTeam ToSportTeamFromapiFootball(this Response apiTeam)
+        {
+            return new SportTeam
+            {
+                SportId = 1,
+                Name = apiTeam.team.name,
+                APIid = apiTeam.team.id,
+            };
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SportsFixture.Enums;
 using SportsFixture.Extensions;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Models;
@@ -42,7 +43,7 @@ namespace SportsFixture.Controllers
             return Ok(userSubscriptions);
         }
 
-        [HttpPost("team")]
+        [HttpPost("teamId")]
         [Authorize]
         public async Task<IActionResult> AddTeamSubscription(int TeamId)
         {
@@ -51,14 +52,12 @@ namespace SportsFixture.Controllers
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
         }
-        [HttpPost("team")]
+        [HttpPost("teamName")]
         [Authorize]
-        public async Task<IActionResult> AddTeamSubscriptionByName(string Team)
+        public async Task<IActionResult> AddTeamSubscriptionByName(string Team, SportType type)
         {
             var username = User.GetUsername();
-
-            
-            var AddSub = await _teamSubscriptionService.AddSubscription(username, TeamId);
+            var AddSub = await _teamSubscriptionService.AddSubscriptionByName(username, Team, type);
             if (AddSub) return Ok();
             else return BadRequest("Error in adding subscription");
         }

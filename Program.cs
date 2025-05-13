@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Services.Subscription;
 using SportsFixture.Repositorys.Subscriptions;
+using SportsFixture.Services.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -116,6 +117,10 @@ builder.Services.AddScoped<ISubscriptionRepository<CompetitionSubscription>, Com
 builder.Services.AddScoped<ITeamSubscriptionService, TeamSubscriptionService>();
 builder.Services.AddScoped<IFixtureSubscriptionService, FixtureSubscriptionService>();
 builder.Services.AddScoped<ICompetitionSubscriptionService, CompeitionSubscriptionService>();
+builder.Services.AddScoped<IapiSportService, apiFootballService>();
+builder.Services.AddHttpClient<IapiSportService, apiFootballService>();
+builder.Services.AddScoped<SportServiceFactory>();
+
 
 var app = builder.Build();
 
