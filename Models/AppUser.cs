@@ -6,5 +6,6 @@ namespace SportsFixture.Models
     {
 
         public List<Subscriptions> Subscriptions { get; set; } = new List<Subscriptions>();
+        public string? GoogleCalToken { get; set; } = String.Empty;
     }
 }
