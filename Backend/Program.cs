@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using SportsFixture.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using SportsFixture.Interfaces.Subscription;
 using SportsFixture.Services.Subscription;
 using SportsFixture.Repositorys.Subscriptions;

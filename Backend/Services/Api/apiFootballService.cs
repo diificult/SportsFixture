@@ -27,7 +27,7 @@ namespace SportsFixture.Services.Api
                     RequestUri = new Uri($"https://api-football-v1.p.rapidapi.com/v3/teams?name={name}"),
                     Headers =
                 {
-                    { "x-rapidapi-key", "cbf5bd73c3msh6ee26877a08bd1dp15274djsn313e1437ca3c" },
+                    { "x-rapidapi-key", _config["APISPORTKEY"] },
                      { "x-rapidapi-host", "api-football-v1.p.rapidapi.com" },
                 },
                 };
